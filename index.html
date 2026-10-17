@@ -677,10 +677,10 @@ const CONFIG = {
     let msg;
     if (btn.dataset.rsvp === "yes") {
       msg = hola + (guest ? " y c" : " C") + "onfirmo mi asistencia a la Revelación, Baby Shower y Cumpleaños de " + CONFIG.nombre + ". 🎉\n" +
-            (team ? "Mi apuesta: ¡es " + team + "! " + (team === "niña" ? "💗" : "💙") : "Mi apuesta: ¡sorpresa!");
+            (team ? "Mi apuesta: " + (team === "niña" ? "💗" : "💙") + " ¡es " + team + "!" : "Mi apuesta: ¡sorpresa!");
     } else {
-      msg = hola + (guest ? ". " : " ") + "Lamentablemente no podré asistir a la celebración de " + CONFIG.nombre + ", pero estaré de corazón con ustedes. 💕" +
-            (team ? "\nMi apuesta: ¡es " + team + "! " + (team === "niña" ? "💗" : "💙") : "");
+      msg = hola + (guest ? ". " : " ") + "Lamentablemente no podré asistir a la celebración de " + CONFIG.nombre + ", pero estaré de corazón con ustedes 💕." +
+            (team ? "\nMi apuesta: " + (team === "niña" ? "💗" : "💙") + " ¡es " + team + "!" : "");
     }
     window.open("https://api.whatsapp.com/send?phone=" + CONFIG.whatsapp + "&text=" + encodeURIComponent(msg), "_blank", "noopener");
   }));
