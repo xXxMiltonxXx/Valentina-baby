@@ -463,7 +463,7 @@
           <text x="390" y="128" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="30" fill="#6e8266" stroke="none">?</text>
         </g>
       </svg>
-      <h3 class="reveal d1" id="venueName">Rancho Spondylus</h3>
+      <h3 class="reveal d1" id="venueName">Casa Rosada</h3>
       <p class="addr reveal d2" id="venueAddr">Dirección · Ciudad</p>
       <p class="time reveal d2" id="venueTime">4:00 p. m.</p>
       <p class="note reveal d2">Llega a tiempo: la gran revelación no espera.</p>
@@ -497,10 +497,7 @@
       <div class="details">
         <div class="detail reveal d1">
           <h4>Dress code</h4>
-          <p>Ven de <span style="color:var(--rose-deep)">rosa</span> si crees que es niña, o de <span style="color:var(--blue-deep)">celeste</span> si crees que es niño.</p>
-          <div class="swatches" aria-hidden="true">
-            <i style="background:#efd3dc"></i><i style="background:#ebc8d3"></i><i style="background:#cfe0f0"></i><i style="background:#bcd2e8"></i>
-          </div>
+          <p>Semiformal.</p>
         </div>
         <div class="detail reveal d2">
           <h4>Obsequios</h4>
@@ -569,24 +566,29 @@
 const CONFIG = {
   nombre: "Valentina",
   // Fecha y hora del evento (formato AAAA-MM-DDTHH:MM, hora de Ecuador -05:00)
-  fecha: "2026-12-05T16:00:00-05:00",
+  fecha: "2026-12-19T17:00:00-05:00",
   duracionHoras: 5,
-  horaTexto: "4:00 p. m.",
+  horaTexto: "5:00 p. m.",
   // Fecha límite para confirmar (texto libre)
-  confirmarAntesDe: "28 de noviembre",
-  lugar: "Rancho Spondylus",
-  direccion: "Ruta del Spondylus, Caña · Montecristi, Manabí",
+  confirmarAntesDe: "12 de diciembre",
+  lugar: "Casa Rosada",
+  direccion: "Manta, Manabí",
   // Pega aquí el enlace de Google Maps del lugar
-  mapa: "https://www.google.com/maps/search/?api=1&query=R5H8%2BV2%20Ca%C3%B1a%2C%20Manab%C3%AD%2C%20Ecuador",
+  mapa: "https://www.google.com/maps/search/?api=1&query=Casa%20Rosada%20Manta%20Ecuador",
   // WhatsApp que recibe las confirmaciones: código de país + número, sin + ni espacios
   whatsapp: "593987472680",
   obsequios: "Tu cariño es lo más importante. Si deseas obsequiar algo, agradecemos que sea en sobre cerrado.",
   itinerario: [
-    { hora: "4:00 p. m.", titulo: "Bienvenida",          icono: "welcome" },
-    { hora: "4:45 p. m.", titulo: "Juegos baby shower",  icono: "bottle"  },
-    { hora: "5:45 p. m.", titulo: "Pastel de cumpleaños",icono: "cake"    },
-    { hora: "6:30 p. m.", titulo: "¡La gran revelación!",icono: "reveal", destacado: true },
-    { hora: "7:00 p. m.", titulo: "Brindis y fiesta",    icono: "toast"   }
+    { hora: "", titulo: "Cóctel de bienvenida",          icono: "toast" },
+    { hora: "", titulo: "Palabras de bienvenida",        icono: "welcome" },
+    { hora: "", titulo: "Palabras de los padres",        icono: "welcome" },
+    { hora: "", titulo: "Intervención de los amigos",    icono: "welcome" },
+    { hora: "", titulo: "Cena familiar",                 icono: "cake" },
+    { hora: "", titulo: "Brindis",                       icono: "toast" },
+    { hora: "", titulo: "Actividad de dejar huellas",    icono: "bottle" },
+    { hora: "", titulo: "¡Momento de la revelación!",    icono: "reveal", destacado: true },
+    { hora: "", titulo: "Agradecimiento de la mamita",   icono: "welcome" },
+    { hora: "", titulo: "Presentación en vivo",          icono: "toast" }
   ]
 };
 /* ===================================================================== */
