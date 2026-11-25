@@ -482,15 +482,6 @@
     </div>
   </section>
 
-  <!-- ================= ITINERARIO ================= -->
-  <section id="itinerario" style="padding-top:20px">
-    <div class="wrap">
-      <p class="eyebrow reveal">Así será la tarde</p>
-      <h2 class="title reveal d1">Momentos para recordar</h2>
-      <ol class="timeline" id="timeline"></ol>
-    </div>
-  </section>
-
   <!-- ================= DETALLES ================= -->
   <section id="detalles" style="padding-top:20px">
     <div class="wrap">
@@ -584,18 +575,6 @@ const CONFIG = {
   // WhatsApp que recibe las confirmaciones: código de país + número, sin + ni espacios
   whatsapp: "593987472680",
   obsequios: "Tu cariño es lo más importante. Si deseas obsequiar algo, agradecemos que sea en sobre cerrado.",
-  itinerario: [
-    { hora: "", titulo: "Cóctel de bienvenida",          icono: "toast" },
-    { hora: "", titulo: "Palabras de bienvenida",        icono: "welcome" },
-    { hora: "", titulo: "Palabras de los padres",        icono: "welcome" },
-    { hora: "", titulo: "Intervención de los amigos",    icono: "welcome" },
-    { hora: "", titulo: "Cena familiar",                 icono: "cake" },
-    { hora: "", titulo: "Brindis",                       icono: "toast" },
-    { hora: "", titulo: "Actividad de dejar huellas",    icono: "bottle" },
-    { hora: "", titulo: "¡Momento de la revelación!",    icono: "reveal", destacado: true },
-    { hora: "", titulo: "Agradecimiento de la mamita",   icono: "welcome" },
-    { hora: "", titulo: "Presentación en vivo",          icono: "toast" }
-  ]
 };
 /* ===================================================================== */
 
@@ -640,28 +619,6 @@ const CONFIG = {
     "&dates=" + toCal(eventDate) + "/" + toCal(end) +
     "&location=" + encodeURIComponent(CONFIG.lugar + ", " + CONFIG.direccion) +
     "&details=" + encodeURIComponent("¡Te esperamos! " + location.href.split("?")[0]);
-
-  /* ---------- Itinerario ---------- */
-  const ICONS = {
-    welcome: '<svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M28 50c0-12-6-20-6-28 0-6 4-10 9-10s9 4 9 10c0 8-6 16-6 28" fill="#fbe3df"/><path d="M31 50l-2 4h6z"/><path d="M48 46c0-10-5-16-5-23 0-5 4-9 8-9s8 4 8 9c0 7-5 13-5 23" fill="#dbe8f7"/><path d="M51 46l-2 4h6z"/><path d="M32 54c-2 8 4 12 2 20M52 50c2 8-4 14 0 24" opacity=".7"/></svg>',
-    bottle:  '<svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M34 14h12v6H34z" fill="#f4cfc9"/><path d="M36 14c0-4 2-6 4-6s4 2 4 6"/><path d="M31 26c0-4 3-6 9-6s9 2 9 6v38a6 6 0 01-6 6h-6a6 6 0 01-6-6z" fill="#fffaf0"/><path d="M31 34h6M31 42h6M31 50h6" /><path d="M31.5 52h17v12a6 6 0 01-6 6h-5a6 6 0 01-6-6z" fill="#dbe8f7" stroke="none" opacity=".8"/></svg>',
-    cake:    '<svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 66h48"/><path d="M20 66V48h40v18" fill="#fffaf0"/><path d="M26 48V36h28v12" fill="#fbe3df"/><path d="M20 54c5 4 8-4 13 0s8-4 14 0 8-4 13 0" /><path d="M40 36v-8M32 36v-6M48 36v-6"/><path d="M40 24c-2-3 0-6 0-6s2 3 0 6zM32 26c-1.5-2.5 0-5 0-5s1.5 2.5 0 5zM48 26c-1.5-2.5 0-5 0-5s1.5 2.5 0 5z" fill="#f5c945"/></svg>',
-    reveal:  '<svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 40h44v28H18z" fill="#fffaf0"/><path d="M14 32h52v8H14z" fill="#f4cfc9"/><path d="M40 32v36"/><path d="M40 32c-6-10-18-12-16-4s16 4 16 4zM40 32c6-10 18-12 16-4s-16 4-16 4z" fill="#fbe3df"/><circle cx="22" cy="14" r="2.5" fill="#f4cfc9" stroke="none"/><circle cx="60" cy="12" r="2.5" fill="#b8d0ec" stroke="none"/><path d="M30 8l2 4M50 6l-2 5M64 22l-4 2M14 22l4 2" /><text x="40" y="60" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="16" fill="currentColor" stroke="none">?</text></svg>',
-    toast:   '<svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 18h14l-2 18a5 5 0 01-10 0z" fill="#fbe3df" transform="rotate(-12 29 30)"/><path d="M44 18h14l-2 18a5 5 0 01-10 0z" fill="#dbe8f7" transform="rotate(12 51 30)"/><path d="M27 44l-3 22M53 44l3 22M18 67h12M50 67h12"/><path d="M38 10l2-4M40 14l4-2M36 14l-4-2"/></svg>'
-  };
-  const tl = $("#timeline");
-  CONFIG.itinerario.forEach((it, i) => {
-    const li = document.createElement("li");
-    li.className = "reveal" + (it.destacado ? " star" : "");
-    const icon = document.createElement("div"); icon.className = "icon"; icon.innerHTML = ICONS[it.icono] || ICONS.welcome;
-    const dot = document.createElement("span"); dot.className = "dot";
-    const txt = document.createElement("div"); txt.className = "txt";
-    const b = document.createElement("b"); b.textContent = it.titulo;
-    const s = document.createElement("span"); s.textContent = it.hora;
-    txt.append(b, s);
-    li.append(icon, dot, txt);
-    tl.appendChild(li);
-  });
 
   /* ---------- Equipo ---------- */
   let team = store.get("v_team");
