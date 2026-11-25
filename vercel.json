@@ -1,5 +1,8 @@
 {
   "rewrites": [
-    { "source": "/:pases(\d{1,2})", "destination": "/index.html" }
+    {
+      "source": "/:pases(\\d+)",
+      "destination": "/index.html"
+    }
   ]
 }
