@@ -224,6 +224,11 @@
     background:#fff;border:1px solid var(--line);opacity:0;transform:scale(.6);transition:.3s ease;
   }
   .team[aria-pressed="true"] .check{opacity:1;transform:scale(1)}
+  .team .t-gift{display:block;font-family:var(--serif);font-style:italic;font-size:.98rem;color:var(--ink-soft);margin-top:10px}
+  .team[disabled]{cursor:default}
+  .team[disabled]:not([aria-pressed="true"]){opacity:.55}
+  .team[disabled]:hover{transform:none}
+  .team-gift{text-align:center;font-family:var(--serif);color:var(--ink);margin:6px auto 0;font-size:1.1rem;max-width:30em;min-height:1.4em}
   .team-note{text-align:center;font-family:var(--serif);font-style:italic;color:var(--ink-soft);margin-top:18px;min-height:1.6em;font-size:1.08rem}
 
   /* Lugar */
@@ -408,7 +413,7 @@
     <div class="wrap">
       <p class="eyebrow reveal">Haz tu apuesta</p>
       <h2 class="title reveal d1">¿Niño o niña?</h2>
-      <p class="lead reveal d1">Elige tu equipo. Lo enviaremos junto con tu confirmación y el gran día veremos quién acertó.</p>
+      <p class="lead reveal d1">Vota por tu equipo. Tu voto se suma al de los demás invitados, solo se puede votar una vez, y el gran día veremos quién acertó.</p>
       <div class="teams reveal d2" role="group" aria-label="Elige tu equipo">
         <button class="team girl" data-team="niña" aria-pressed="false">
           <span class="check" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d4808c" stroke-width="2.5"><path d="M5 12l5 5 9-10"/></svg></span>
@@ -417,6 +422,7 @@
           </svg>
           <span class="t-name">Niña</span>
           <span class="t-sub">Team rosa</span>
+          <span class="t-gift">Detalle: pañitos húmedos</span>
         </button>
         <button class="team boy" data-team="niño" aria-pressed="false">
           <span class="check" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f7db5" stroke-width="2.5"><path d="M5 12l5 5 9-10"/></svg></span>
@@ -425,9 +431,11 @@
           </svg>
           <span class="t-name">Niño</span>
           <span class="t-sub">Team azul</span>
+          <span class="t-gift">Detalle: pañales</span>
         </button>
       </div>
       <p class="team-note" id="teamNote" aria-live="polite"></p>
+      <p class="team-gift" id="teamGift" aria-live="polite"></p>
     </div>
   </section>
 
@@ -620,20 +628,52 @@ const CONFIG = {
     "&location=" + encodeURIComponent(CONFIG.lugar + ", " + CONFIG.direccion) +
     "&details=" + encodeURIComponent("¡Te esperamos! " + location.href.split("?")[0]);
 
-  /* ---------- Equipo ---------- */
-  let team = store.get("v_team");
-  const teamBtns = document.querySelectorAll(".team");
-  const note = $("#teamNote");
-  function paintTeam(){
-    teamBtns.forEach(b => b.setAttribute("aria-pressed", String(b.dataset.team === team)));
-    note.textContent = team ? (team === "niña" ? "¡Eres del Team Niña! Tu apuesta irá en tu confirmación." : "¡Eres del Team Niño! Tu apuesta irá en tu confirmación.") : "";
+  /* ---------- Votos del equipo (contador compartido entre todos los invitados) ---------- */
+  const VOTOS = { api: "https://abacus.jasoncameron.dev", ns: "valentina-baby-vercel-app" };
+  const keyOf = (t) => t === "niña" ? "team-nina" : "team-nino";
+  async function contar(t){
+    try {
+      const r = await fetch(VOTOS.api + "/get/" + VOTOS.ns + "/" + keyOf(t));
+      if (r.status === 404) return 0;
+      const j = await r.json(); return Number(j.value) || 0;
+    } catch (e) { return null; }
   }
-  teamBtns.forEach(b => b.addEventListener("click", (e) => {
-    team = b.dataset.team; store.set("v_team", team); paintTeam();
+  async function votar(t){
+    const r = await fetch(VOTOS.api + "/hit/" + VOTOS.ns + "/" + keyOf(t));
+    if (!r.ok) throw new Error("voto");
+    const j = await r.json(); return Number(j.value) || 1;
+  }
+  let team = store.get("v_vote");
+  const teamBtns = document.querySelectorAll(".team");
+  const note = $("#teamNote"), gift = $("#teamGift");
+  const nombre = (t) => t === "niña" ? "Team Niña" : "Team Niño";
+  function conteoTexto(t, n){
+    if (n === null) return "¡Voto registrado en el " + nombre(t) + "!";
+    if (n <= 1) return "¡Eres el primer voto del " + nombre(t) + "!";
+    return "¡Voto registrado! Ya somos aproximadamente " + n + " en el " + nombre(t) + ".";
+  }
+  function paintTeam(){
+    teamBtns.forEach(b => {
+      b.setAttribute("aria-pressed", String(b.dataset.team === team));
+      b.disabled = !!team;
+    });
+    gift.textContent = team ? (team === "niña" ? "Tu detalle como Team Niña: pañitos húmedos." : "Tu detalle como Team Niño: pañales.") : "";
+  }
+  teamBtns.forEach(b => b.addEventListener("click", async () => {
+    if (team) return;
+    const elegido = b.dataset.team;
+    teamBtns.forEach(x => x.disabled = true);
+    note.textContent = "Registrando tu voto…";
+    let n;
+    try { n = await votar(elegido); }
+    catch (e) { teamBtns.forEach(x => x.disabled = false); note.textContent = "No pude registrar tu voto ahora. Inténtalo de nuevo en un momento."; return; }
+    team = elegido; store.set("v_vote", team); paintTeam();
+    note.textContent = conteoTexto(team, n);
     const r = b.getBoundingClientRect();
     burst(r.left + r.width/2, r.top + r.height/2, team === "niña" ? ["#f4cfc9","#f8dcd7","#d4808c","#fff"] : ["#b8d0ec","#cfe1f5","#4f7db5","#fff"], 70);
   }));
   paintTeam();
+  if (team) contar(team).then(n => { note.textContent = conteoTexto(team, n).replace("¡Voto registrado! ", "Tu voto está registrado. ").replace("¡Voto registrado en", "Tu voto está registrado en"); });
 
 
   /* ---------- RSVP por WhatsApp ---------- */
