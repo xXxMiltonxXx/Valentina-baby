@@ -634,8 +634,7 @@ const CONFIG = {
 
   /* ---------- Pases: 1 (por defecto), 2 o 4 personas según el enlace ---------- */
   let asistentes = pases;
-  const palabras = { 1: "una persona", 2: "dos personas", 3: "tres personas", 4: "cuatro personas" };
-  $("#admision").innerHTML = "Admisión: <b>" + (palabras[pases] || (pases + " personas")) + "</b>";
+  $("#admision").innerHTML = "Admisión: <b>" + pases + (pases === 1 ? " persona" : " personas") + "</b>";
   if (pases > 1) {
     $("#personalTxt").innerHTML = "Hemos reservado " + pases + " lugares para ti y " + (pases === 2 ? "tu acompañante" : "tus " + (pases - 1) + " acompañantes") + ".<br>Con cariño, esta invitación es personal.";
     $("#guestsBox").hidden = false;
