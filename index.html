@@ -622,7 +622,8 @@ const CONFIG = {
 
   /* ---------- Invitado desde ?para=Nombre ---------- */
   const params = new URLSearchParams(location.search);
-  const pases = Math.max(1, Math.min(10, parseInt(params.get("pases") || "1", 10) || 1));
+  const rutaPases = (location.pathname.match(/^\/(\d{1,2})\/?$/) || [])[1];
+  const pases = Math.max(1, Math.min(10, parseInt(params.get("pases") || rutaPases || "1", 10) || 1));
   const guest = (params.get("para") || params.get("invitado") || "").trim().slice(0,80);
   if (guest) {
     $("#guestEnvelope").textContent = guest;

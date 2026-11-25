@@ -68,7 +68,7 @@
   </div>
 
   <div class="card rapidos">
-    <h2>Enlaces rápidos, sin nombre</h2>
+    <h2>Enlaces cortos (sin nombre)</h2>
     <p><b>1 persona</b><span id="r1"></span></p>
     <p><b>2 personas</b><span id="r2"></span></p>
     <p><b>4 personas</b><span id="r4"></span></p>
@@ -79,10 +79,7 @@
   var BASE = "https://valentina-baby.vercel.app/";
   var $ = function(s){ return document.querySelector(s); };
   function url(nombre, pases){
-    var q = [];
-    if (nombre) q.push("para=" + encodeURIComponent(nombre));
-    if (pases > 1) q.push("pases=" + pases);
-    return BASE + (q.length ? "?" + q.join("&") : "");
+    return BASE + (pases > 1 ? pases : "") + (nombre ? "?para=" + encodeURIComponent(nombre) : "");
   }
   function pases(){ return parseInt(document.querySelector("input[name=pases]:checked").value, 10); }
   function pintar(){
